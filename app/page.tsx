@@ -1,6 +1,7 @@
 "use client";
 
 import MapWrapper from "@/components/MapWrapper";
+import { Input } from "@/components/ui/input";
 import { Switch } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
@@ -33,7 +34,7 @@ export default function Home() {
 
   return (
     <main className="relative h-screen w-screen">
-      <section
+      <aside
         className={`absolute top-10 left-10 z-10 rounded-xl bg-slate-50 flex flex-col ${
           sideNavOpen ? "min-w-72 h-[90%] p-4 " : "w-fit h-fit p-0"
         }`}
@@ -45,8 +46,14 @@ export default function Home() {
         >
           {sideNavOpen ? <Bars3BottomLeftIcon /> : <XMarkIcon />}
         </Switch>
-        {<div className={sideNavOpen ? "size-full" : "hidden"}></div>}
-      </section>
+        {
+          <section className={sideNavOpen ? "size-full" : "hidden"}>
+            <div>
+              <Input />
+            </div>
+          </section>
+        }
+      </aside>
       <MapWrapper />
     </main>
   );

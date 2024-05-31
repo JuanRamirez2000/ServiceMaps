@@ -1,6 +1,11 @@
 "use client";
 
-import Map from "react-map-gl";
+import Map, {
+  FullscreenControl,
+  GeolocateControl,
+  NavigationControl,
+  ScaleControl,
+} from "react-map-gl";
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -16,7 +21,12 @@ export default function MapWrapper() {
         }}
         style={{ width: "width: 100%", height: "100%" }}
         mapStyle="mapbox://styles/mapbox/dark-v11"
-      />
+      >
+        <FullscreenControl />
+        <GeolocateControl />
+        <NavigationControl />
+        <ScaleControl />
+      </Map>
     </section>
   );
 }

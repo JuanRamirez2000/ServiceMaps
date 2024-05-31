@@ -45,7 +45,7 @@ export default function Home() {
         >
           {sideNavOpen ? <Bars3BottomLeftIcon /> : <XMarkIcon />}
         </Switch>
-        {sideNavOpen && <div className="h-full w-full"></div>}
+        {<div className={sideNavOpen ? "size-full" : "hidden"}></div>}
       </section>
       <MapWrapper />
     </main>

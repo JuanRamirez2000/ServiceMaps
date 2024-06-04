@@ -20,7 +20,7 @@ export default function MapWrapper() {
           zoom: 14,
         }}
         style={{ width: "width: 100%", height: "100%" }}
-        mapStyle="mapbox://styles/mapbox/dark-v11"
+        mapStyle="mapbox://styles/mapbox/light-v11"
       >
         <FullscreenControl />
         <GeolocateControl />

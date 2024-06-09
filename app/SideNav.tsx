@@ -30,7 +30,7 @@ export default function SideNav({ children }: { children: React.ReactNode }) {
   return (
     <aside>
       <aside
-        className={`absolute top-5 left-10 z-10 rounded-xl bg-slate-50 flex flex-col  shadow-2xl  ${
+        className={`absolute top-1.5 left-1.5 md:left-4 z-10 rounded-xl bg-slate-50 flex flex-col  shadow-2xl  ${
           sideNavOpen ? "min-w-72 h-[90%] p-4 " : "w-fit h-fit p-0"
         }`}
       >

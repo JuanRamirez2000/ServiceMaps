@@ -30,6 +30,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { findIsochrone } from "@/actions/findIsochrones";
 import { toast } from "sonner";
+import hexRgb from "hex-rgb";
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -64,11 +65,14 @@ export default function Home() {
   const isochroneLayer = new GeoJsonLayer({
     id: "Isochrones",
     data: isochrones as any,
-    stroked: true,
     filled: true,
-    getFillColor: [160, 160, 180, 50],
-    getLineWidth: 40,
-    getPointRadius: 4,
+    getFillColor: (d: any) => {
+      return hexRgb(d.properties.fillColor, {
+        format: "array",
+        alpha: d.properties.opacity * 255,
+      });
+    },
+    getLineWidth: 20,
   });
 
   return (

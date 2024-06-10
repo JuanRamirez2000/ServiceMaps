@@ -11,6 +11,7 @@ const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string;
 
 const POLYGONS_BOOLEAN = "true";
 const DENOISE_FACTOR = "0.1";
+const GENERALIZE = "200";
 
 const coordinates = [-117.86763, 33.748875].toString();
 
@@ -30,6 +31,7 @@ const findIsochrone = async (
       contours_minutes: "15,30,45,60",
       polygons: POLYGONS_BOOLEAN,
       denoise: DENOISE_FACTOR,
+      generalize: GENERALIZE,
       access_token: MAPBOX_ACCESS_TOKEN,
     }).toString();
 

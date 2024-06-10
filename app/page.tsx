@@ -63,15 +63,17 @@ export default function Home() {
   };
 
   const isochroneLayer = new GeoJsonLayer({
-    id: "Isochrones",
+    id: "isochrones",
     data: isochrones as any,
+    stroked: true,
     filled: true,
     getFillColor: (d: any) => {
       return hexRgb(d.properties.fillColor, {
         format: "array",
-        alpha: d.properties.opacity * 255,
+        alpha: 255,
       });
     },
+    opacity: 0.15,
     getLineWidth: 20,
   });
 
@@ -192,7 +194,7 @@ export default function Home() {
             zoom: 14,
           }}
           style={{ width: "width: 100%", height: "100%" }}
-          mapStyle="mapbox://styles/mapbox/light-v11"
+          mapStyle="mapbox://styles/mapbox/streets-v12"
         >
           <DeckGLOverlay layers={[isochroneLayer]} />
           <FullscreenControl />

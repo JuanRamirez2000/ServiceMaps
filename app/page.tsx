@@ -1,8 +1,6 @@
 "use client";
-import MapWrapper from "@/components/MapWrapper";
 import SideNav from "./SideNav";
 
-import { findIsochrone } from "@/actions/findIsochrones";
 import {
   Label,
   Input,
@@ -10,7 +8,6 @@ import {
   Fieldset,
   RadioGroup,
   Radio,
-  Listbox,
   Button,
   Legend,
 } from "@headlessui/react";
@@ -24,29 +21,44 @@ import Map, {
 } from "react-map-gl";
 import DeckGLOverlay from "@/components/DeckGLOverlay";
 import { GeoJsonLayer } from "deck.gl";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, Resolver, useForm } from "react-hook-form";
+import {
+  COMMUTING_MODES,
+  formSchema,
+} from "@/components/IsochroneForm/IsochroneFormTypings";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { findIsochrone } from "@/actions/findIsochrones";
+import { toast } from "sonner";
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-const COMMUTING_MODES = ["driving", "driving-traffic", "walking", "cycling"];
-type COMMUTING_MODES_TYPES =
-  | "driving"
-  | "driving-traffic"
-  | "walking"
-  | "cycling";
 
 export default function Home() {
-  const { register, handleSubmit, control } = useForm();
+  const { register, handleSubmit, control } = useForm<
+    z.infer<typeof formSchema>
+  >({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      location: 92707,
+      commutingMode: "driving-traffic",
+      firstCutoff: 15,
+      secondCutoff: 30,
+      thirdCutoff: 45,
+      fourthCutoff: 60,
+    },
+  });
 
   const [isochrones, setIsochrones] = useState();
 
-  const handleFindIsochrones = async (data) => {
-    console.log(data);
-    //try {
-    //  const retrievedIsochrones = await findIsochrone({});
-    //  setIsochrones(retrievedIsochrones.features);
-    //} catch (err) {
-    //  console.error(err);
-    //}
+  const handleFindIsochrones = async (data: z.infer<typeof formSchema>) => {
+    const retrievedIsochrones = await findIsochrone(data);
+    if (retrievedIsochrones.status === "Success") {
+      toast.success("Created your distances!");
+      setIsochrones(retrievedIsochrones.data.features);
+    }
+    if (retrievedIsochrones.status === "Error") {
+      toast.error("Failed creating distances :(");
+    }
   };
 
   const isochroneLayer = new GeoJsonLayer({
@@ -70,15 +82,19 @@ export default function Home() {
             <Label> Zip Code </Label>
             <Input
               type="number"
-              className="rounded-lg px-3.5 py-1.5 w-20 bg-slate-500 text-slate-50"
+              className="rounded-lg px-3.5 py-1.5 w-24 bg-slate-500 text-slate-50"
               defaultValue={92707}
-              {...register("location")}
+              {...register("location", {
+                maxLength: 6,
+                minLength: 1,
+                valueAsNumber: true,
+              })}
             />
           </Field>
           <Controller
             control={control}
             defaultValue="driving-traffic"
-            name="commuting_mode"
+            name="commutingMode"
             render={({ field }) => (
               <RadioGroup className="space-y-2" {...field}>
                 <Label>Commuting Mode</Label>
@@ -87,7 +103,7 @@ export default function Home() {
                     value={mode}
                     key={mode}
                     className="group relative flex cursor-pointer rounded-lg bg-slate-500 py-4 px-5 text-slate-50 transition data-[checked]:bg-slate-600 focus:outline-none data-[focus]:outline-1 data-[focus]:outline-slate-50"
-                    {...register("commuting_mode")}
+                    {...register("commutingMode")}
                   >
                     <div className="flex ">
                       <span>{mode}</span>
@@ -108,7 +124,11 @@ export default function Home() {
                 type="number"
                 className="rounded-lg px-3.5 py-1.5 w-16 bg-slate-500 text-slate-50"
                 defaultValue={15}
-                {...register("first_cutoff")}
+                {...register("firstCutoff", {
+                  min: 0,
+                  max: 60,
+                  valueAsNumber: true,
+                })}
               />
             </Field>
             <Field className="flex flex-row justify-between">
@@ -117,7 +137,11 @@ export default function Home() {
                 type="number"
                 className="rounded-lg px-3.5 py-1.5 w-16 bg-slate-500 text-slate-50"
                 defaultValue={30}
-                {...register("second_cutoff")}
+                {...register("secondCutoff", {
+                  min: 0,
+                  max: 60,
+                  valueAsNumber: true,
+                })}
               />
             </Field>
             <Field className="flex flex-row justify-between">
@@ -126,7 +150,11 @@ export default function Home() {
                 type="number"
                 className="rounded-lg px-3.5 py-1.5 w-16 bg-slate-500 text-slate-50"
                 defaultValue={45}
-                {...register("third_cutoff")}
+                {...register("thirdCutoff", {
+                  min: 0,
+                  max: 60,
+                  valueAsNumber: true,
+                })}
               />
             </Field>
             <Field className="flex flex-row justify-between">
@@ -135,7 +163,11 @@ export default function Home() {
                 type="number"
                 className="rounded-lg px-3.5 py-1.5 w-16 bg-slate-500 text-slate-50"
                 defaultValue={60}
-                {...register("fourth_cutoff")}
+                {...register("fourthCutoff", {
+                  min: 0,
+                  max: 60,
+                  valueAsNumber: true,
+                })}
               />
             </Field>
           </Fieldset>

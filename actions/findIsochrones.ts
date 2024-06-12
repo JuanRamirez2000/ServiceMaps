@@ -27,9 +27,12 @@ const findIsochrone = async (
       data: null,
     };
   }
+
+  const contourMinutes = `${validatedFields.data.firstCutoff},${validatedFields.data.secondCutoff},${validatedFields.data.thirdCutoff},${validatedFields.data.fourthCutoff}`;
+
   try {
     const params = new URLSearchParams({
-      contours_minutes: "15,30,45,60",
+      contours_minutes: contourMinutes,
       polygons: POLYGONS_BOOLEAN,
       denoise: DENOISE_FACTOR,
       generalize: GENERALIZE,

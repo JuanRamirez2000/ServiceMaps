@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Service Maps
 
-## Getting Started
+An app that displays time frames for how long a service is willing to travel based on certain time frames
 
-First, run the development server:
+## A Note On Contributions:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Contributions are closed right now due to this being a personal project. However during production I might be inclined to add more users to the project
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Built With:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Frontend Tech
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- ReactJS
+- TypescriptJS
+- MapboxAPI
+- React Map GL JS
+- DeckGL
 
-## Learn More
+Backend tech
 
-To learn more about Next.js, take a look at the following resources:
+- NextJS (app Directory)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Infra
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Vercel
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Current and Future Additions:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [x] Users are able to determine the commuting mode
+- [x] Users can select the timings of each request
+- [ ] Users can select the origin
+- [ ] Users should be allowed to save their maps
+- [ ] Users should be allowed to share their maps through a link
+- [ ] Users should be allowed to save the map as an image
+
+## Changes and optimizations needed
+- [ ] Better UI across the board
+
+## Bugs to fix
+- [ ] Rendering bug when multiple polygons are on top of one another.
+
+## Lessons learned from the project
+
+- Mapbox Isochrone API
+
+Built by Juan Ramirez

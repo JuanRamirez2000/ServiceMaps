@@ -11,11 +11,12 @@ import {
   Button,
   Legend,
 } from "@headlessui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import Map, {
   FullscreenControl,
   GeolocateControl,
+  MapRef,
   NavigationControl,
   ScaleControl,
 } from "react-map-gl";
@@ -31,10 +32,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { findIsochrone } from "@/actions/findIsochrones";
 import { toast } from "sonner";
 import hexRgb from "hex-rgb";
+import { SearchBox } from "@mapbox/search-js-react";
+import mapboxgl from "mapbox-gl";
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export default function Home() {
+  const mapRef = useRef<MapRef | null>(null);
+
   const { register, handleSubmit, control } = useForm<
     z.infer<typeof formSchema>
   >({
@@ -77,6 +82,8 @@ export default function Home() {
     getLineWidth: 20,
   });
 
+  if (!mapRef) return <h1>Loading...</h1>;
+
   return (
     <main className="relative h-screen w-screen">
       <SideNav>
@@ -85,16 +92,16 @@ export default function Home() {
           onSubmit={handleSubmit(handleFindIsochrones)}
         >
           <Field className="flex flex-col gap-1">
-            <Label> Zip Code </Label>
-            <Input
-              type="number"
-              className="rounded-lg px-3.5 py-1.5 w-24 bg-slate-500 text-slate-50"
-              defaultValue={92707}
-              {...register("location", {
-                maxLength: 6,
-                minLength: 1,
-                valueAsNumber: true,
-              })}
+            <Label> Location </Label>
+            <SearchBox
+              accessToken={MAPBOX_ACCESS_TOKEN as string}
+              options={{
+                proximity: "ip",
+              }}
+              placeholder="Enter your location"
+              map={mapRef.current?.getMap()}
+              mapboxgl={mapboxgl}
+              marker
             />
           </Field>
           <Controller
@@ -195,6 +202,7 @@ export default function Home() {
           }}
           style={{ width: "width: 100%", height: "100%" }}
           mapStyle="mapbox://styles/mapbox/streets-v12"
+          ref={mapRef}
         >
           <DeckGLOverlay layers={[isochroneLayer]} />
           <FullscreenControl />

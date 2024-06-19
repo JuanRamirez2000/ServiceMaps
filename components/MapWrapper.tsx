@@ -4,10 +4,8 @@ import Map, {
   GeolocateControl,
   NavigationControl,
   ScaleControl,
-  useControl,
 } from "react-map-gl";
-import { MapboxOverlay } from "@deck.gl/mapbox";
-
+import DeckGLOverlay from "./DeckGLOverlay";
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
 export default function MapWrapper() {
@@ -23,7 +21,7 @@ export default function MapWrapper() {
         style={{ width: "width: 100%", height: "100%" }}
         mapStyle="mapbox://styles/mapbox/light-v11"
       >
-        <DeckGLOverlay layers={[routeLayer]} />
+        <DeckGLOverlay />
         <FullscreenControl />
         <GeolocateControl />
         <NavigationControl />

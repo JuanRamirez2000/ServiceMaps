@@ -21,6 +21,7 @@ import { Controller, useForm } from "react-hook-form";
 import { COMMUTING_MODES, formSchema } from "./IsochroneFormTypings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { MapboxSearch } from "../MapboxSearchBox/MapboxSearch";
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -92,13 +93,7 @@ export default function IsochroneMultiStepForm() {
           {currentStep === 0 && (
             <Field className="flex flex-col gap-1 w-64">
               <Label> Location </Label>
-              <SearchBox
-                accessToken={MAPBOX_ACCESS_TOKEN as string}
-                options={{
-                  proximity: "ip",
-                }}
-                placeholder="Enter your location"
-              />
+              <MapboxSearch accessToken={MAPBOX_ACCESS_TOKEN as string} />
             </Field>
           )}
           {currentStep === 1 && (

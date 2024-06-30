@@ -1,3 +1,5 @@
+{
+  /* 
 "use client";
 import SideNav from "./SideNav";
 
@@ -213,4 +215,6 @@ export default function Home() {
       </section>
     </main>
   );
+}
+*/
 }

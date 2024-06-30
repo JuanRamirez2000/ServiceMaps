@@ -16,12 +16,17 @@ import {
   Radio,
   RadioGroup,
 } from "@headlessui/react";
-import { SearchBox } from "@mapbox/search-js-react";
 import { Controller, useForm } from "react-hook-form";
 import { COMMUTING_MODES, formSchema } from "./IsochroneFormTypings";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { MapboxSearch } from "../MapboxSearchBox/MapboxSearch";
+import dynamic from "next/dynamic";
+
+const MapboxSearch = dynamic(
+  () =>
+    import("../MapboxSearchBox/MapboxSearch").then((mod) => mod.MapboxSearch),
+  { ssr: false }
+);
 
 const MAPBOX_ACCESS_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
